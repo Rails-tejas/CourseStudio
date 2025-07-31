@@ -1,0 +1,24 @@
+<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 90vh; padding-top: 60px;">
+  <div class="col-md-6 col-lg-4 bg-white p-4 rounded shadow">
+    <h2 class="text-center mb-4">Forgot your password?</h2>
+
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="mb-3">
+        <%= f.label :email, class: "form-label" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: true %>
+      </div>
+        <hr>
+      <div class="d-grid mb-2">
+        <%= f.submit "Send Mail", class: "btn btn-teal btn-lg w-100 rounded-pill" %>
+      </div>
+
+       <div class="d-grid mb-3">
+        <%= link_to "Log In", new_user_session_path, class: "btn btn-teal btn-lg px-4 rounded-pill" %>
+      </div>
+
+      
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<style>
+  .form-container {
+    background: linear-gradient(135deg, #ffffff, #f2fefc);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .btn-teal {
+    background: linear-gradient(to right, #18bc9c, #2c3e50);
+    color: #fff;
+    border: none;
+    transition: 0.3s ease;
+  }
+
+  .btn-teal:hover {
+    background: linear-gradient(to right, #2c3e50, #18bc9c);
+    color: #fff;
+  }
+
+  .auto-dismiss {
+    transition: opacity 0.3s ease;
+  }
+</style>
+
+<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 90vh; padding-top: 60px;">
+  <div class="col-md-6 col-lg-4 form-container">
+
+    <% if flash[:alert] %>
+      <div class="alert alert-warning d-flex align-items-center auto-dismiss" role="alert">
+       
+        <span><%= flash[:alert] %></span>
+      </div>
+
+      <script>
+        setTimeout(function () {
+          const alert = document.querySelector('.auto-dismiss');
+          if (alert) {
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 300);
+          }
+        }, 2000);
+      </script>
+    <% end %>
+
+    <h2 class="text-center mb-4 fw-bold">Log In</h2>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "needs-validation" }) do |f| %>
+      
+      <div class="mb-4">
+        <%= f.label :email, class: "form-label fw-semibold" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg rounded-3", required: true %>
+      </div>
+
+      <div class="mb-4" data-controller="password-visibility">
+        <%= f.label :password, class: "form-label fw-semibold" %>
+        <div class="input-group">
+          <%= f.password_field :password, autocomplete: "current-password", class: "form-control form-control-lg rounded-start-3", required: true, data: { password_visibility_target: "input" } %>
+          <span class="input-group-text" data-action="click->password-visibility#toggle" style="cursor: pointer;">
+            <i class="bi bi-eye" data-password-visibility-target="icon"></i>
+          </span>
+        </div>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="form-check mb-4">
+          <%= f.check_box :remember_me, class: "form-check-input" %>
+          <%= f.label :remember_me, class: "form-check-label" %>
+        </div>
+      <% end %>
+
+      <div class="d-grid mb-3">
+        <%= f.submit "Log In", class: "btn btn-teal btn-lg px-4 rounded-pill" %>
+      </div>
+    <% end %>
+
+    <div class="d-grid mb-3">
+      <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-teal btn-lg px-4 rounded-pill" %>
+    </div>
+
+    <hr>
+
+    <div class="d-grid">
+      <%= link_to "Forgot Password?", new_user_password_path, class: "btn btn-outline-info btn-lg px-4 rounded-pill" %>
+    </div>
+
+  </div>
+</div>

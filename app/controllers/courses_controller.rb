@@ -1,0 +1,96 @@
+class CoursesController < ApplicationController
+  
+  before_action :authenticate_user!, only: [:show]
+  before_action :set_course, only: %i[ show edit update destroy enroll ]
+
+  # GET /courses or /courses.json
+  def index
+    if params[:q].present?
+      query = "%#{params[:q].downcase}%"
+      @courses = Course.where("LOWER(title) LIKE ? OR LOWER(description) LIKE ?", query, query)
+    else
+      @courses = Course.all
+    end
+  end
+
+  # GET /courses/1 or /courses/1.json
+  def show
+    
+  end
+
+  # GET /courses/new
+  def new
+    @course = Course.new
+  end
+
+  # GET /courses/1/edit
+  def edit
+
+  end
+
+  # POST /courses or /courses.json
+  def create
+    @course = Course.new(course_params)
+
+    respond_to do |format|
+      if @course.save
+        format.html { redirect_to @course, notice: "Course was successfully created." }
+        format.json { render :show, status: :created, location: @course }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @course.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /courses/1 or /courses/1.json
+  def update
+    respond_to do |format|
+      if @course.update(course_params)
+        format.html { redirect_to @course, notice: "Course was successfully updated." }
+        format.json { render :show, status: :ok, location: @course }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @course.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
+  def destroy
+    @course.destroy!
+
+    respond_to do |format|
+      format.html { redirect_to courses_path, status: :see_other, notice: "Course was successfully destroyed." }
+      format.json { head :no_content }
+    end
+  end
+
+  def enroll
+  @course = Course.find(params[:id])
+  enrollment = Enrollment.find_or_initialize_by(user: current_user, course: @course)
+
+  if enrollment.new_record?
+    enrollment.enrolled = true
+    enrollment.progress = 0
+    if enrollment.save
+      redirect_to @course, notice: 'Successfully enrolled in the course.'
+    else
+      redirect_to @course, alert: 'Could not enroll, please try again.'
+    end
+  else
+    redirect_to @course, notice: 'You are already enrolled in this course.'
+  end
+end
+
+
+  private
+    
+    def set_course
+      @course = Course.find(params.expect(:id))
+    end
+
+    def course_params
+      params.expect(course: [ :title, :description, :user_id, videos: [] ])
+    end
+end

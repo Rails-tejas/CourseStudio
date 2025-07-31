@@ -1,0 +1,66 @@
+<style>
+  .form-container {
+    background: linear-gradient(135deg, #ffffff, #f2fefc);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .btn-teal {
+    background: linear-gradient(to right, #18bc9c, #2c3e50);
+    color: #fff;
+    border: none;
+    transition: 0.3s ease;
+  }
+
+  .btn-teal:hover {
+    background: linear-gradient(to right, #2c3e50, #18bc9c);
+    color: #fff;
+  }
+
+  .auto-dismiss {
+    transition: opacity 0.3s ease;
+  }
+</style>
+
+<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 90vh; padding-top: 60px;">
+  <div class="col-md-6 col-lg-4 bg-white p-4 rounded shadow">
+
+    <h2 class="text-center mb-4">Sign Up</h2>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "needs-validation" }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="mb-3">
+        <%= f.label :email, class: "form-label" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: true %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :password, class: "form-label" %>
+        <% if @minimum_password_length %>
+          <div class="form-text mb-1">(<%= @minimum_password_length %> characters minimum)</div>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-control", required: true %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :password_confirmation, class: "form-label" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", required: true %>
+      </div>
+
+      <div class="d-grid mb-3">
+        <%= f.submit "Sign Up", class: "btn btn-teal btn-lg px-4 rounded-pill" %>
+      </div>
+
+      <div class="d-grid mb-3">
+        <%= link_to "Log In", new_user_session_path, class: "btn btn-teal btn-lg px-4 rounded-pill" %>
+      </div>
+
+
+    
+    <% end %>
+
+      
+  </div>
+</div>

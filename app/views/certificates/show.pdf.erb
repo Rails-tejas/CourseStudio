@@ -1,0 +1,123 @@
+<html>
+<head>
+  <title>Certificate of Completion</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm;
+    }
+
+    body {
+      font-family: 'Helvetica', sans-serif;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .certificate {
+      border: 3px solid #18bc9c;
+      padding: 50px;
+      position: relative;
+      text-align: center;
+      background-color: #fafafa;
+    }
+
+    .logo {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      height: 60px;
+    }
+
+    .title {
+      font-size: 32px;
+      font-weight: bold;
+      color: #18bc9c;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      z-index: 1;
+    }
+
+    .certify {
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    .name {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #222;
+    }
+
+    .desc, .note {
+      font-size: 14px;
+      color: #444;
+      margin: 10px 0;
+    }
+
+    .course {
+      font-size: 20px;
+      font-weight: bold;
+      color: #222;
+      margin: 25px 0;
+    }
+
+    .issued {
+      font-size: 13px;
+      color: #555;
+      margin-top: 30px;
+    }
+
+    .signature-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 60px;
+    }
+    .signature-block {
+      text-align: right;
+      font-size: 12px;
+      color: #333;
+    }
+
+    .signature-block img {
+      height: 45px;
+    }
+
+    .verify {
+      margin-top: 40px;
+      font-size: 10px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="certificate">
+    <img src="<%= wicked_pdf_asset_base64('css.png') %>" class="logo" alt="App Logo">
+    <div class="title">Certificate of Completion</div>
+    <div class="certify">This certifies that</div>
+    <div class="name"><%= current_user.profile&.name || 'Your Name' %></div>
+
+    <div class="desc">
+      has successfully completed all course requirements and demonstrated<br>
+      proficiency in the following:
+    </div>
+
+    <div class="course">Certified <%= @course.title || "Certified Developer" %> Developer</div>
+    <div class="note">Gained practical knowledge and foundational skills in programming with this course.</div>
+    <div class="issued">Issued on <%= Date.today.strftime("%B %d, %Y") %></div>
+
+    <div class="signature-section"> 
+      <div class="signature-block">
+        <img src="<%= wicked_pdf_asset_base64('signature.png') %>" alt="Signature"><br>
+        <strong>Instructor</strong><br>
+        CourseStudio 
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

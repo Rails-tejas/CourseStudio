@@ -1,0 +1,6 @@
+<h1>Hi <%= @user.name %>,</h1>
+<p>A new course "<strong><%= @course.title %></strong>" has just been added by a tutor.</p>
+<p>Description: <%= @course.description %></p>
+<p>👉 <%= link_to 'View Course', course_url(@course) %></p>
+
+<p>Don't miss !</p>

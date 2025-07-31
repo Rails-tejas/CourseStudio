@@ -1,0 +1,74 @@
+<style>
+  .btn-teal {
+    background: linear-gradient(90deg, #18bc9c, #1abc9c);
+    color: white;
+    border: none;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn-teal:hover {
+    background: linear-gradient(90deg, #148f77, #17a589);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(24, 188, 156, 0.4);
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: #333;
+  }
+
+  .form-control:focus {
+    border-color: #18bc9c;
+    box-shadow: 0 0 0 0.15rem rgba(24, 188, 156, 0.25);
+  }
+
+  .card-contact {
+    background-color: #ffffff;
+    border-radius: 1.5rem;
+    border: none;
+  }
+</style>
+<br><br><br><br>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+      <div class="card shadow-lg card-contact">
+        <div class="card-body p-5">
+          <h2 class="text-center fw-bold mb-3" style="color: #18bc9c;">Get in Touch</h2>
+          <p class="text-center text-muted mb-4">
+            Have a question or feedback about <strong>CourseStudio</strong>? We’d love to hear from you!
+          </p>
+
+          <form action="https://formsubmit.co/tejascryptex@gmail.com" method="POST">
+            <div class="row g-4">
+              <div class="col-md-6">
+                <label for="name" class="form-label">Your Name</label>
+                <input type="text" id="name" name="name" class="form-control shadow-sm rounded-3" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="email" class="form-label">Your Email</label>
+                <input type="email" id="email" name="email" class="form-control shadow-sm rounded-3" required>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <label for="message" class="form-label">Your Message</label>
+              <textarea id="message" name="message" rows="5" class="form-control shadow-sm rounded-3" required></textarea>
+            </div>
+
+            <div class="d-grid mt-5">
+              <button type="submit" class="btn btn-teal btn-lg rounded-pill fw-semibold">
+                <i class="bi bi-send me-2"></i>Send Message
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

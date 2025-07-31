@@ -1,0 +1,90 @@
+<style>
+  .form-container {
+    background: linear-gradient(to right, #fdfefe, #f4fbfb);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-label-custom {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .form-control-custom {
+    border-radius: 12px;
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  .form-control-custom:focus {
+    border-color: #18bc9c;
+    box-shadow: 0 0 0 3px rgba(24, 188, 156, 0.2);
+    outline: none;
+  }
+
+  .btn-gradient {
+    background: linear-gradient(135deg, #18bc9c, #2c3e50);
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+
+  .btn-gradient:hover {
+    background: linear-gradient(135deg, #14917d, #1f2e3d);
+  }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+  <div class="col-md-10 col-lg-8">
+    <h2 class="mb-4 text-center">
+      <%= course.new_record? ? 'Create a New Course' : 'Edit Course' %>
+    </h2>
+
+    <div class="form-container">
+      <%= form_with(model: course, local: true) do |form| %>
+
+        <% if course.errors.any? %>
+          <div class="alert alert-danger">
+            <h4><%= pluralize(course.errors.count, "error") %> prevented this course from being saved:</h4>
+            <ul>
+              <% course.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div>
+          <%= form.label :title, class: 'form-label-custom' %>
+          <%= form.text_field :title, class: 'form-control-custom', required: true %>
+        </div>
+
+        <div>
+          <%= form.label :description, class: 'form-label-custom' %>
+          <%= form.text_area :description, class: 'form-control-custom', rows: 4, required: true %>
+        </div>
+
+        <%= form.hidden_field :user_id, value: current_user.id if current_user %>
+
+        <div>
+          <%= form.label :videos, 'Upload Video(s)', class: 'form-label-custom' %>
+          <%= form.file_field :videos, multiple: true, class: 'form-control-custom', required: course.new_record? %>
+        </div>
+
+        <div class="d-flex gap-3 mt-4">
+          <%= form.submit 'Create Course', class: 'btn btn-gradient flex-fill' %>
+          <%= link_to 'Back', courses_path, class: 'btn btn-gradient flex-fill' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

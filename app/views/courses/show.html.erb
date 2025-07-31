@@ -1,0 +1,217 @@
+<%= javascript_include_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js", defer: true %>
+
+<style>
+  .course-hero-container {
+    background: linear-gradient(135deg, #fdfefe, #f4fbfb);
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+  }
+
+  .course-heading {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #2c3e50;
+  }
+
+  .course-subtext {
+    color: #555;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  .course-stats span {
+    display: inline-block;
+    margin-right: 24px;
+    font-size: 1rem;
+    color: #444;
+  }
+
+  .progress-bar-custom {
+    background: linear-gradient(90deg, #18bc9c, #2c3e50);
+    color: white;
+    font-weight: bold;
+    border-radius: 20px;
+    text-align: center;
+  }
+
+  .nav-tabs .nav-link {
+    font-weight: 500;
+    color: #555;
+    border: none;
+  }
+
+  .nav-tabs .nav-link.active {
+    background-color: #18bc9c;
+    color: white;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .tab-content {
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+  }
+</style>
+
+<div class="container my-5">
+  <div class="row g-4 align-items-center course-hero-container">
+    <div class="col-md-7">
+      <h1 class="course-heading mb-3"><%= @course.title %></h1>
+      <p class="course-subtext"><%= @course.description %></p>
+
+      <div class="course-stats mt-4 mb-4">
+        <span>⭐ <strong>5.0</strong> average rating</span>
+        <span><strong><%= @course.videos.count %></strong> videos</span>
+        <span><strong><%= pluralize(@course.enrollments.count, "learner") %></strong> enrolled</span>
+      </div>
+
+      <% if user_signed_in? %>
+        <% if current_user.courses.include?(@course) %>
+          <div class="alert alert-info">Now you are  enrolled in this course.</div>
+        <% else %>
+          <%= button_to 'Enroll Now', enroll_course_path(@course), method: :post, class: "btn btn-teal" %>
+        <% end %>
+      <% end %>
+
+      <% if user_signed_in? && current_user.courses.include?(@course) %>
+        <% total = @course.videos.count %>
+        <% done = current_user.user_video_progresses.where(course: @course, completed: true).count %>
+        <% percent = total.zero? ? 0 : (done.to_f / total * 100).round %>
+
+        <div class="mt-4">
+          <div class="progress" style="height: 26px; border-radius: 20px;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated progress-bar-custom" role="progressbar" style="width: <%= percent %>%" aria-valuenow="<%= percent %>" aria-valuemin="0" aria-valuemax="100">
+              <%= percent %>% Complete
+            </div>
+          </div>
+
+          <% if percent == 100 %>
+            <div class="text-center mt-3">
+              <%= link_to "🎓 Download Certificate", course_certificate_path(@course, format: :pdf), class: "btn btn-success rounded-pill mt-2" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-md-5">
+      <% if user_signed_in? %>
+        <div class="card shadow-sm rounded-4">
+          <ul class="nav nav-tabs nav-fill" id="videoTabs" role="tablist">
+            <% @course.videos.each_with_index do |video, index| %>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link <%= 'active' if index == 0 %>" id="tab-<%= index %>" data-bs-toggle="tab" data-bs-target="#video-<%= index %>" type="button" role="tab">
+                  Video <%= index + 1 %>
+                </button>
+              </li>
+            <% end %>
+          </ul>
+
+          <div class="tab-content p-3 bg-white rounded-bottom">
+            <% @course.videos.each_with_index do |video, index| %>
+              <div class="tab-pane fade <%= 'show active' if index == 0 %>" id="video-<%= index %>" role="tabpanel">
+                <div class="ratio ratio-16x9 rounded shadow-sm d-flex align-items-center justify-content-center bg-light">
+                  <% if current_user && current_user.courses.include?(@course) %>
+                    <%= video_tag video, controls: true, class: 'w-100 h-100', data: { video_id: video.blob.id, course_id: @course.id } %>
+                  <% else %>
+                    <div class="text-muted text-center px-3">
+                      <p class="mb-1 fw-bold"> Please enroll in this course to access videos.</p>
+                      
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <div class="bg-dark text-white d-flex align-items-center justify-content-center" style="height: 250px;">
+          <p>Please log in to watch course videos.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="mt-5 p-4 rounded-4 shadow-sm" style="background: linear-gradient(to right, #ffffff, #f8fdfa);">
+  <h4 class="fw-bold mb-4">What you'll learn</h4>
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>✅ Build real web development projects for your portfolio</li>
+        <li>✅ Learn modern tools</li>
+        <li>✅ Apply for junior developer jobs confidently</li>
+        <li>✅ Master Software development</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>✅ Build websites and apps for businesses</li>
+        <li>✅ Master frontend</li>
+        <li>✅ Learn full-stack best practices</li>
+        <li>✅ Work as a freelancer or remote dev</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4">
+  <h5 class="fw-bold">Explore related topics</h5>
+  <div class="d-flex gap-2 flex-wrap">
+    <span class="badge bg-light border text-dark px-3 py-2 rounded-pill">Web Development</span>
+    <span class="badge bg-light border text-dark px-3 py-2 rounded-pill">Development</span>
+  </div>
+</div>
+
+<div class="mt-4 p-4 rounded-4 shadow-sm" style="background: linear-gradient(to right, #fefefe, #f6fdfd);">
+  <h5 class="fw-bold mb-3">This course includes:</h5>
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li><strong><%= @course.videos.count %></strong> on-demand videos</li>
+        <li>7 coding exercises</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>194 downloadable resources</li>
+        <li>Access on mobile and TV</li>
+        <li>Certificate of completion</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center my-4">
+  <%= link_to '← Back to Courses', courses_path, class: 'btn btn-teal rounded-pill px-4 py-2' %>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("video").forEach(video => {
+      video.addEventListener("ended", function () {
+        const videoId = this.dataset.videoId;
+        const courseId = this.dataset.courseId;
+
+        if (videoId && courseId) {
+          fetch("/video_progress", {
+            method: "POST",
+            headers: {
+              "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({
+              video_id: videoId,
+              course_id: courseId
+            })
+          })
+            .then(res => res.json())
+            .then(data => console.log("Progress:", data))
+            .catch(err => console.error("Error:", err));
+        }
+      });
+    });
+  });
+</script>

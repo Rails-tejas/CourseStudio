@@ -1,0 +1,118 @@
+<%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css", media: "all" %>
+
+<section class="hero-section py-5" data-aos="fade-up" style="background: linear-gradient(to right, #e6f9f7, #ffffff);">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6 mb-4 mb-md-0" data-aos="fade-right">
+        <h1 class="fw-bold display-4 text-teal">Learn New Skills Online</h1>
+        <p class="lead text-muted mb-4">
+          Take your learning to the next level with our online courses,<br>
+          taught by experts in various fields.
+        </p>
+        <% if user_signed_in? %>
+          <%= link_to "Browse Courses", courses_path, class: "btn btn-teal btn-lg px-4 shadow-sm" %>
+        <% else %>
+          <%= link_to "Get Started", new_user_registration_path, class: "btn btn-teal btn-lg px-4 shadow-sm" %>
+        <% end %>
+      </div>
+      <div class="col-md-6 text-center" data-aos="zoom-in">
+        <%= image_tag("hero.png", alt: "Hero Image", class: "img-fluid rounded", style: "max-height: 400px; box-shadow: 0 8px 16px rgba(0,0,0,0.1);") %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="courses-preview py-5" data-aos="fade-up" style="background-color: #f9f9f9;">
+  <div class="container">
+    <h2 class="text-center mb-4 text-teal">Featured Courses</h2>
+    <div class="row g-4">
+      <% [
+        {title: 'Python Programming', desc: 'Learn Python from scratch and build real-world projects.', url: 'https://www.tutorialspoint.com/python/index.htm'},
+        {title: 'JavaScript Basics', desc: 'Understand core JavaScript concepts and web development.', url: 'https://www.tutorialspoint.com/javascript/index.htm'},
+        {title: 'Java Fundamentals', desc: 'Master Java programming for applications and backend.', url: 'https://www.tutorialspoint.com/java/index.htm'},
+        {title: 'Ruby Programming', desc: 'Learn Ruby from scratch and build real-world projects.', url: 'https://www.tutorialspoint.com/ruby/index.htm'}
+      ].each_with_index do |course, i| %>
+        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="<%= i * 100 %>">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-teal fw-semibold"><%= course[:title] %></h5>
+              <p class="card-text text-muted"><%= course[:desc] %></p>
+              <a href="<%= course[:url] %>" target="_blank" class="btn btn-outline-teal btn-sm">Explore →</a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<section class="py-5" data-aos="fade-left" style="background: linear-gradient(to left, #e6f9f7, #ffffff);">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <h2 class="display-5 fw-bold text-teal">AI for Business Leaders</h2>
+        <p class="lead text-muted">
+          Build an AI-habit for you and your team that builds hands-on skills to help you lead effectively.
+        </p>
+      </div>
+      <div class="col-lg-6 text-center" data-aos="zoom-in">
+        <%= image_tag "cards/image.png", class: "img-fluid rounded shadow-sm" %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features py-5" data-aos="fade-up" style="background-color: #f9f9f9;">
+  <div class="container">
+    <h2 class="text-center text-teal mb-5">Why Choose CourseStudio?</h2>
+    <div class="row g-4">
+      <% [
+        {title: 'Expert Instructors', desc: 'Learn from experienced programmers who know what it takes to succeed.'},
+        {title: 'Interactive Learning', desc: 'Engage with quizzes, coding challenges, and hands-on projects.'},
+        {title: 'Flexible Schedule', desc: 'Access courses anytime, anywhere — learn at your own pace.'}
+      ].each_with_index do |feature, i| %>
+        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="<%= (i+1) * 100 %>">
+          <div class="card h-100 text-center border-0 shadow-sm p-3">
+            <div class="card-body">
+              <h5 class="card-title text-teal fw-bold"><%= feature[:title] %></h5>
+              <p class="card-text text-muted"><%= feature[:desc] %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<section class="about py-5" data-aos="fade-up">
+  <div class="container text-center">
+    <h2 class="text-teal mb-3">About CourseStudio</h2>
+    <p class="lead text-muted mx-auto" style="max-width: 800px;">
+      CourseStudio is dedicated to helping aspiring developers build strong programming skills through expertly designed courses and interactive learning. Whether you want to learn Ruby, Python, JavaScript, Java or any other language, we’ve got you covered with easy-to-follow lessons and hands-on projects.
+    </p>
+  </div>
+</section>
+
+<%= javascript_include_tag "https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js", defer: true %>
+<script>
+  document.addEventListener("turbo:load", function () {
+    if (typeof AOS !== 'undefined') {
+      AOS.init({ duration: 300, once: true });
+      AOS.refresh();
+    } else {
+      
+      setTimeout(() => {
+        if (typeof AOS !== 'undefined') {
+          AOS.init({ duration: 300, once: true });
+          AOS.refresh();
+        } else {
+          console.warn("AOS is still not defined after delay.");
+        }
+      }, 500); 
+    }
+  });
+</script>
+
+<script
+  src='https://cdn.jotfor.ms/agent/embedjs/0197ca7226197cac843a0014d245fb784be4/embed.js?skipWelcome=1&maximizable=1'>
+</script>

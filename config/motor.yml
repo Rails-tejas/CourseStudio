@@ -1,0 +1,28 @@
+---
+engine_version: 0.4.36
+file_version: 2025-07-02 04:40:51.694768000 +05:30
+resources: []
+configs:
+- key: header.links
+  value:
+  - name: Reports
+    link_type: reports
+  - name: Forms
+    link_type: forms
+  - conditions: []
+    type: header
+    name: HomePage
+    path: http://localhost:3000
+    link_type: header
+  updated_at: 2025-07-02 04:40:51.694768000 +00:00
+queries: []
+dashboards: []
+forms: []
+alerts: []
+api_configs:
+- id: 1
+  name: origin
+  url: "/"
+  preferences: {}
+  description:
+  updated_at: 2025-06-27 08:02:27.292555000 +00:00

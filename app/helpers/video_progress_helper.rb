@@ -1,0 +1,2 @@
+module VideoProgressHelper
+end
