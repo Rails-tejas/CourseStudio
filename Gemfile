@@ -17,20 +17,20 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
-gem 'devise'
+gem "devise"
 
-#gem 'rails_admin'
+# gem 'rails_admin'
 
-gem 'motor-admin' # provides admin pannel 
+gem "motor-admin" # provides admin pannel
 
-gem 'httparty'
+gem "httparty"
 
-#gem 'sidekiq'
+# gem 'sidekiq'
 
 
-gem 'wicked_pdf' #pdf generator from html file to pdf 
+gem "wicked_pdf" # pdf generator from html file to pdf
 
-gem 'wkhtmltopdf-binary' #install binaries which are required to run the 
+gem "wkhtmltopdf-binary" # install binaries which are required to run the
 
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]

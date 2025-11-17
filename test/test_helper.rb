@@ -13,3 +13,7 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
   end
 end
+ActiveRecord::FixtureSet.context_class.fixture_path =
+  File.join(Rails.root, "test/fixtures")
+
+ActiveRecord::FixtureSet.all_loaded_fixtures.delete("course_progresses")
