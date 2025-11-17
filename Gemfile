@@ -79,3 +79,4 @@ group :test do
 end
 
 gem "prawn", "~> 2.5" # certificate downloads
+gem "pg", "~> 1.1"
